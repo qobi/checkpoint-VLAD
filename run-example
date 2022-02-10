@@ -1,0 +1,40 @@
+#!/bin/bash
+n=1000
+phi=3
+ulimit -s unlimited
+for l in 53 101 211 401 809 1601 3203; do
+    echo Tapenade example-without-binomial $l
+    /usr/bin/time --verbose example-without-binomial <<EOF
+$n
+$l
+$phi
+EOF
+    echo
+done
+for l in 53 101 211 401 809 1601 3203; do
+    echo Tapenade example-with-binomial $l
+    /usr/bin/time --verbose example-with-binomial <<EOF
+$n
+$l
+$phi
+EOF
+    echo
+done
+for l in 53 101 211 401 809 1601 3203; do
+    echo VLAD example-without-bisection $l
+    /usr/bin/time --verbose ./example-without-bisection <<EOF
+$n
+$l
+$phi
+EOF
+    echo
+done
+for l in 53 101 211 401 809 1601 3203; do
+    echo VLAD example-with-bisection $l
+    /usr/bin/time --verbose ./example-with-bisection <<EOF
+$n
+$l
+$phi
+EOF
+    echo
+done

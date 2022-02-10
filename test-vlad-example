@@ -1,0 +1,11 @@
+#!/bin/bash
+ulimit -s unlimited
+./vlad-compiler 10 test-vlad
+for l in 101 211 401 809 1601 3203; do
+    echo VLAD-test-$l
+    ./test-vlad <<EOF
+$l
+EOF
+    echo
+done
+rm -f test-vlad test-vlad.c

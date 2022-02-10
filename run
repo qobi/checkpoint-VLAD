@@ -1,0 +1,5 @@
+#!/bin/tcsh -f
+make clean
+./test-example
+make plots
+make clean

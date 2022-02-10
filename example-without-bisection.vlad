@@ -1,0 +1,56 @@
+(define (car (cons car cdr)) car)
+
+(define (cdr (cons car cdr)) cdr)
+
+(define (first x) (car x))
+
+(define (rest x) (cdr x))
+
+(define (second x) (first (rest x)))
+
+(define (iota n) (if (zero? n) '() (cons n (iota (- n 1)))))
+
+(define (ilog2 l) (floor (/ (log l) (log 2))))
+
+(define (rotate theta x1 x2)
+ (let ((c (cos theta)) (s (sin theta)))
+  (cons (- (* c x1) (* s x2)) (+ (* s x1) (* c x2)))))
+
+(define (rot1 theta x)
+ (if (or (null? x) (null? (rest x)))
+     x
+     (let ((x12 (rotate theta (first x) (second x))))
+      (cons (car x12)
+	    (cons (cdr x12) (rot1 theta (rest (rest x))))))))
+
+(define (rot2 theta x)
+ (if (null? x) x (cons (first x) (rot1 theta (rest x)))))
+
+(define (magsqr x)
+ (if (null? x) 0 (+ (* (first x) (first x)) (magsqr (rest x)))))
+
+(define (write-vector v)
+ (if (null? v) '() (cons (write-real (first v)) (write-vector (rest v)))))
+
+(define (f x l phi)
+ (let outer ((i 1) (x1 x))
+  (if (> i l)
+      (/ (magsqr x1) 2)
+      (let ((m (expt
+		2
+		(- (ilog2 l)
+		   (ilog2
+		    (+ 1 (modulo (* (* 1013 (floor (expt 3 phi))) i) l)))))))
+       (let inner ((j 1) (x1 x1))
+	(if (> j m)
+	    (outer (+ i 1) x1)
+	    (inner (+ j 1)
+		   (let ((y (sqrt (magsqr x1))))
+		    (rot2 (* 1.4 y) (rot1 (* 1.2 y) x1))))))))))
+
+(let* ((n (read-real))
+       (l (read-real))
+       (phi (read-real))
+       (x (iota n))
+       (result (*j (lambda (x) (f x l phi)) x 1)))
+ (cons (write-real (car result)) (write-vector (cdr result))))

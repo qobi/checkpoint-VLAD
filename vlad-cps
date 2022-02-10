@@ -1,0 +1,12 @@
+#!/usr/bin/env scheme-script
+
+(import (rnrs) (vlad-compiler))
+
+(unless (= (length (command-line)) 3)
+ (error #f "usage: vlad-cps <base-case-duration> <pathname>"))
+
+(vlad-cps (string->number (cadr (command-line))) (caddr (command-line)))
+
+;;; Local Variables:
+;;; eval: (scheme-mode)
+;;; End:

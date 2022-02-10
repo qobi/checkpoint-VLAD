@@ -1,0 +1,11 @@
+#!/bin/bash
+ulimit -s unlimited
+gfortran -o test-fortran test-fortran.f
+for l in 101 211 401 809 1601 3203; do
+    echo Fortran-test-$l
+    ./test-fortran <<EOF
+$l
+EOF
+    echo
+done
+rm -f test-fortran

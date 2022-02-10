@@ -1,0 +1,5 @@
+#!/bin/tcsh -f
+unbuff ./test-fortran-example|sed -e "s/ //g" \
+  >/tmp/test-fortran-example.text
+unbuff ./test-vlad-example >/tmp/test-vlad-example.text
+diff /tmp/test-{fortran,vlad}-example.text >test-example.text

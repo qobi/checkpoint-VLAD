@@ -1,0 +1,16 @@
+(define (ilog2 l) (floor (/ (log l) (log 2))))
+
+(define (f l x)
+ (let outer ((i 1) (m 0))
+  (if (> i l)
+      1
+      (outer
+       (+ i 1)
+       (write-real
+	(expt
+	 2
+	 (- (ilog2 l)
+	    (ilog2
+	     (+ 1 (modulo (* (* 1013 (floor (expt 3 x))) i) l))))))))))
+
+(f (read-real) 3)
